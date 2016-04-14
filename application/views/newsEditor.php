@@ -6,9 +6,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <meta charset="UTF-8">
     <title>newsEditor</title>
-    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="dist/css/wangEditor.min.css">
-    <link rel="stylesheet" type="text/css" href="dist/css/EditorStyle.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/wangEditor.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
     <style>
         .input-box span,input{
             font-family:  微软雅黑,sans-serif;
@@ -41,20 +41,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEmail3" placeholder="username">
+                                    <input type="text"  name="username" class="form-control" id="inputEmail3" placeholder="username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
-                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Remember me
+                                            <input name="checkbox" type="checkbox"> Remember me
                                         </label>
                                     </div>
                                 </div>
@@ -111,9 +111,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
-    <script type="text/javascript" src="dist/js/lib/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="dist/js/wangEditor.js"></script>
-    <script type="text/javascript" src="dist/js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/wangEditor.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/bootstrap.min.js"></script>
     <script>
         //页面简单逻辑
         (function($){
@@ -148,10 +148,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //        (function($){
             var editor = new wangEditor('editor-trigger');
             // 阻止输出log
-            wangEditor.config.printLog = false;
+            wangEditor.config.printLog = true;
 
             // 上传图片
-            editor.config.uploadImgUrl = '/upload';
+            editor.config.uploadImgUrl = 'http://localhost/NewsRelease/index.php/newsEditer/imgUpload';
 
             // 表情显示项
             //editor.config.emotionsShow = 'value';
