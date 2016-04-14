@@ -6,9 +6,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <meta charset="UTF-8">
     <title>newsEditor</title>
-    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="dist/css/wangEditor.min.css">
-    <link rel="stylesheet" type="text/css" href="dist/css/EditorStyle.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/wangEditor.min.css">
+   	<link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
     <style>
         .input-box span,input{
             font-family:  微软雅黑,sans-serif;
@@ -20,6 +20,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             height: 400px;
             max-height: 400px;
         }
+        #userShow{
+        	width: 100px;
+        }
+        .user-name{
+        	width: 100%;
+        	display: block;
+        	margin-right: 20px;
+        	cursor: pointer;
+        	text-overflow: ellipsis;
+        	overflow: hidden;
+        	white-space:nowrap;
+        }
     </style>
 </head>
 <body>
@@ -27,7 +39,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="filter-bg"></div>
         <div class="main-title" style="font-family: 微软雅黑; color: #6f6e6b;">专为新闻编辑设计</div>
         <div class="btn-R-position">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
+        	<div id="logSign" style="display: none;">
+        		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
+	            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#signIn">注册</button>
+        	</div>
+            <div id="userShow">
+            	<a class="user-name">设立的发明了萨克发的发的发的分散</a>
+            </div>
         </div>
         <div class="modal fade" id="logIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -41,20 +59,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEmail3" placeholder="username">
+                                    <input type="text"  name="username" class="form-control" id="inputEmail3" placeholder="username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
-                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Remember me
+                                            <input name="checkbox" type="checkbox"> Remember me
                                         </label>
                                     </div>
                                 </div>
@@ -65,6 +83,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" >登录</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="signIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">注册</h4>
+                    </div>
+                    <form class="form-horizontal" method="post" action="index.php">
+	                    <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="username">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" placeholder="Password">
+                                </div>
+                            </div>
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button type="submit" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                        <button type="button" class="btn btn-primary" >注册</button>
+	                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -87,15 +135,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="input-box">
             <span>发布单位</span>
-            <input type="text" placeholder="company">
+            <input type="text" id="unit" placeholder="company">
         </div>
         <div class="input-box">
             <span>新闻标题</span>
-            <input type="text" placeholder="title">
+            <input type="text" id="title" placeholder="title">
         </div>
         <div class="input-box">
             <span>编辑作者</span>
-            <input type="text" placeholder="author">
+            <input type="text" id="author" placeholder="author">
         </div>
         <div class="input-box">
             <span>新闻内容</span>
@@ -111,9 +159,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
-    <script type="text/javascript" src="dist/js/lib/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="dist/js/wangEditor.js"></script>
-    <script type="text/javascript" src="dist/js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/wangEditor.js"></script>
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/bootstrap.min.js"></script>
     <script>
         //页面简单逻辑
         (function($){
@@ -136,10 +184,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var selectbox = new selectBox();
             selectbox.selectCategory();
 
-            //登录按钮提交表单
+			var btn = function(){};
+			btn.prototype = {
+				//登录模态框确定按钮提交表单
+				btnLogin : function(){
+					var login = $("#logIn");
+					login.find("btn-primary").bind("click", function(){
+						var username = $("#inputName").val();
+						var passW = $("#inputPassword").val();
+						var checked = false;
+						if(login.find()){
+							checked = true;
+						}
+						var data = {
+							"username": username,
+							"password": passW,
+							"checked": checked
+						};
+						$.ajax({
+							type:"get",
+							url:"",
+							data:data,
+							success: function(data){
+								//写入登录名
+								
+							}
+						})
+					});
+				}
+			}
+            
 
             //查看效果（访问template页面）跳转页面请求
-
+            
             //发布页面ajax提交，弹出框，refresh
 
         })(jQuery);
@@ -148,10 +225,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //        (function($){
             var editor = new wangEditor('editor-trigger');
             // 阻止输出log
-            wangEditor.config.printLog = false;
+             wangEditor.config.printLog = true;
 
             // 上传图片
-            editor.config.uploadImgUrl = '/upload';
+            editor.config.uploadImgUrl = 'http://localhost/NewsRelease/index.php/newsEditer/imgUpload';
 
             // 表情显示项
             //editor.config.emotionsShow = 'value';
