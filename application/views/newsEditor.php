@@ -8,7 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>newsEditor</title>
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/wangEditor.min.css">
+<<<<<<< HEAD
    	<link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
+=======
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
+>>>>>>> 71edfd681ac7fe7dac016bc03e18fe0f66cbcc3f
     <style>
         .input-box span,input{
             font-family:  微软雅黑,sans-serif;
@@ -225,7 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //        (function($){
             var editor = new wangEditor('editor-trigger');
             // 阻止输出log
-             wangEditor.config.printLog = true;
+            wangEditor.config.printLog = true;
 
             // 上传图片
             editor.config.uploadImgUrl = 'http://localhost/NewsRelease/index.php/newsEditer/imgUpload';
