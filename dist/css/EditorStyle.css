@@ -5,6 +5,9 @@ html, body, input, span {
 body {
   background-color: #dddddd; }
 
+a, a:hover {
+  text-decoration: none; }
+
 .myWrapper {
   margin: 0 auto;
   width: 50%;

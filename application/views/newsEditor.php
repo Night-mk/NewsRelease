@@ -8,11 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>newsEditor</title>
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/wangEditor.min.css">
-<<<<<<< HEAD
    	<link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
-=======
-    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
->>>>>>> 71edfd681ac7fe7dac016bc03e18fe0f66cbcc3f
     <style>
         .input-box span,input{
             font-family:  微软雅黑,sans-serif;
@@ -25,16 +21,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             max-height: 400px;
         }
         #userShow{
-        	width: 100px;
+        	font-size: 1.3em;
+        	cursor: pointer;
         }
         .user-name{
-        	width: 100%;
-        	display: block;
+        	width: 100px;
+        	display: inline-block;
         	margin-right: 20px;
-        	cursor: pointer;
         	text-overflow: ellipsis;
         	overflow: hidden;
-        	white-space:nowrap;
+        	white-space: nowrap;
         }
     </style>
 </head>
@@ -49,6 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         	</div>
             <div id="userShow">
             	<a class="user-name">设立的发明了萨克发的发的发的分散</a>
+            	<a style="float: right;display: inline-block;">注销</a>
             </div>
         </div>
         <div class="modal fade" id="logIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -161,6 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <button type="button" id="showView" class="btn btn-default">查看效果</button>
             <button type="button" id="release" class="btn btn-default btn-R-position">发布</button>
         </div>
+        <a href="newsList.html">test</a>
     </div>
 
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
