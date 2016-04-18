@@ -21,8 +21,9 @@ html,body,input,span{
   margin: 0;
   padding: 0;
 }
-body{
-  background-color: #dddddd;
+
+a,a:hover{
+  text-decoration: none;
 }
 
 .myWrapper{
@@ -89,3 +90,18 @@ body{
 //  margin: $position-center;
 //  position: relative;
 //}
+
+/*--------------page newsList.html-------------*/
+.main-content{
+  margin: 20px 10px;
+}
+
+.wrapper-minH{
+  min-height: 400px;
+  border: 1px solid #dedede;
+  margin-top: 20px;
+  -webkit-box-shadow: 3px 3px 3px;
+  -moz-box-shadow: 3px 3px 3px;
+  box-shadow: 3px 3px 3px;
+}
+

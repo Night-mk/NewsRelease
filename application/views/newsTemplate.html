@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻模板页</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
+    <style>
+        .title-font{
+            color: #999;
+            font-size: 1.1em;
+            font-family: Consolas;
+            font-weight: 400;
+            padding-right: 10px;
+            padding-left: 5px;
+        }
+        .divide-line{
+            border-right: 1px solid #dedede;
+        }
+        .news-header{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dedede;
+        }
+        .news-body{
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="myWrapper wrapper-minH">
+        <div class="news-header">
+            <div id="category"><span class="title-font">分类标签：<a href="#">经济</a></span></div>
+            <div id="title" class="main-title" style="font-family: 微软雅黑;color: #000000;">正常的新闻</div>
+            <p>
+                <span id="unit" class="title-font divide-line">凤凰新闻</span>
+                <span id="time" class="title-font">2016-04-17 21:00</span>
+                <span id="author" class="title-font">编辑：<i></i></span>
+            </p>
+        </div>
+        <div id="content" class="news-body">
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script>
+        (function ($) {
+            function GetRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for(var i = 0; i < strs.length; i ++) {
+                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                    }
+                }
+                return theRequest;
+            }
+            function transCategory(category){
+                var category1 = "";
+                switch(category){
+                    case "finance":
+                        category1 = "经济";
+                        break;
+                    case "sports":
+                        category1 = "体育";
+                        break;
+                    case "entertainment":
+                        category1 = "娱乐";
+                        break;
+                    case "building":
+                        category1 = "房产";
+                        break;
+                    case "technical":
+                        category1 = "科技";
+                        break;
+                    case "car":
+                        category1 = "汽车";
+                        break;
+
+                }
+                return category1;
+            }
+            var newsId = GetRequest()[0];
+            var data = {
+                "newsId": newsId
+            };
+            if(newsId==""){//查看效果
+
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "",
+                    data: data,
+                    success: function (data) {
+                        var data1 = eval("("+data+")");
+                        $("#category").find("a").val(transCategory(data1.category));
+                        $("#title").val(data1.title);
+                        $("#unit").val(data1.unit);
+                        $("#time").val(data1.time1);
+                        $("#author").find("i").val(data1.author);
+                        $("#content").children().append(data1.content);
+                    }
+                });
+            }
+        })(jQuery);
+
+    </script>
+</body>
+</html>

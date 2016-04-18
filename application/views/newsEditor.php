@@ -8,8 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>newsEditor</title>
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/wangEditor.min.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
+   	<link rel="stylesheet" type="text/css" href="http://localhost/NewsRelease/dist/css/EditorStyle.css">
     <style>
+        body{
+          background-color: #dddddd;
+        }
         .input-box span,input{
             font-family:  微软雅黑,sans-serif;
         }
@@ -20,6 +23,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             height: 400px;
             max-height: 400px;
         }
+        #userShow{
+        	font-size: 1.3em;
+        	cursor: pointer;
+        }
+        .user-name{
+        	width: 100px;
+        	display: inline-block;
+        	margin-right: 20px;
+        	text-overflow: ellipsis;
+        	overflow: hidden;
+        	white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -27,7 +42,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="filter-bg"></div>
         <div class="main-title" style="font-family: 微软雅黑; color: #6f6e6b;">专为新闻编辑设计</div>
         <div class="btn-R-position">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
+        	<div id="logSign" >
+        		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
+	            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#signIn">注册</button>
+        	</div>
+            <div id="userShow" style="display: none;">
+            	<a class="user-name">设立的发明了萨克发的发的发的分散</a>
+            	<a style="float: right;display: inline-block;">注销</a>
+            </div>
         </div>
         <div class="modal fade" id="logIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -41,13 +63,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-8">
-                                    <input type="text"  name="username" class="form-control" id="inputEmail3" placeholder="username">
+                                    <input type="text"  name="username" class="form-control" id="inputName" placeholder="username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
-                                    <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -62,9 +84,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" >登录</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="signIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">注册</h4>
+                    </div>
+                    <form class="form-horizontal" method="post" action="index.php">
+	                    <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="username">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" placeholder="Password">
+                                </div>
+                            </div>
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
+	                        <button type="submit" class="btn btn-primary" >注册</button>
+	                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -72,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span class="select-title">类别选择</span>
             <!-- Large button group -->
             <div id="selected-category" class="btn-group btn-select">
-                <button class="btn btn-default dropdown-toggle btn-selectL" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-default dropdown-toggle btn-selectL" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="finance">
                     财经<span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu btn-selectL">
@@ -87,15 +139,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="input-box">
             <span>发布单位</span>
-            <input type="text" placeholder="company">
+            <input type="text" id="unit" placeholder="company">
         </div>
         <div class="input-box">
             <span>新闻标题</span>
-            <input type="text" placeholder="title">
+            <input type="text" id="title" placeholder="title">
         </div>
         <div class="input-box">
             <span>编辑作者</span>
-            <input type="text" placeholder="author">
+            <input type="text" id="author" placeholder="author">
         </div>
         <div class="input-box">
             <span>新闻内容</span>
@@ -109,6 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <button type="button" id="showView" class="btn btn-default">查看效果</button>
             <button type="button" id="release" class="btn btn-default btn-R-position">发布</button>
         </div>
+        <!--<a href="newsList.html">test</a>-->
     </div>
 
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
@@ -127,20 +180,103 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $(this).bind("click", function(event){
                             event.preventDefault();
                             var item = $(this).text();
+                          	selected_item.attr("name",$(this).attr("id"));
                             selected_item.text(item);
                             selected_item.append('<span class="caret"></span>');
                         });
                     });
                 }
             };
-            var selectbox = new selectBox();
-            selectbox.selectCategory();
-
-            //登录按钮提交表单
-
-            //查看效果（访问template页面）跳转页面请求
-
-            //发布页面ajax提交，弹出框，refresh
+            
+			//按钮的点击选项封装成类
+			var btnClick = function(){
+				var _this_ = this;
+			};
+			btnClick.prototype = {
+				//登录模态框确定按钮提交表单
+				btnLogin : function(){
+					var login = $("#logIn");
+					login.find(".btn-primary").bind("click", function(){
+						var username = $("#inputName").val();
+						var passW = $("#inputPassword").val();
+						var checked = false;
+						if(login.find("input[type='checkbox']").is(':checked')){	
+							checked = true;
+						}
+						var data = {
+							"username": username,
+							"password": passW,
+							"checked": checked
+						};
+						$.ajax({
+							type:"post",
+							url:"",
+							data:data,
+							success: function(data){
+								
+							}
+						});
+						login.find(".btn-close").click();
+					});
+				},
+				//查看效果（访问template页面）跳转页面请求
+				btnShowEffect: function(){
+					
+				},
+				//发布页面ajax提交，弹出框，refresh
+				releaseNews: function(){
+					var release = $("#release");
+					release.bind("click", function(){
+						var data = _this_.getData();
+						$.ajax({
+							type: "post",
+							url: "dealNews.php",
+							data: data,
+							success: function(data){
+								if(data==1){
+									alert("提价成功");
+								}else if(data==2){
+									alert("提价失败");
+								}
+							}
+						});
+					}
+				},
+				//获取数据
+				getData: function(){
+					var category = $("#selected-category").find("button").attr(name),
+						unit = $("#unit").val(),
+						title = $("#title").val(),
+						author = $("#author").val();
+					function timeStamp(){
+						var datetime = new Date(); 
+					    var year = datetime.getFullYear();  
+					    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;  
+					    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();  
+					    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();  
+					    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();  
+					    return year + "-" + month + "-" + date+" "+hour+":"+minute;  
+					}
+					var time = timeStamp();
+					var content = $("#editor-trigger").html();
+					var data = {
+						"category": category,
+						"unit": unit,
+						"title": title,
+						"author": author,
+						"time1": time,
+						"content": content
+					}
+					
+					return data;
+				}
+			};
+			
+			var selectbox = new selectBox();
+			selectbox.selectCategory();
+			
+			var btnclick = new btnClick();
+			btnclick.btnLogin();
 
         })(jQuery);
 
