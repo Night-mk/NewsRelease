@@ -60,4 +60,13 @@ class NewsEditer extends CI_Controller {
 		$url="http://localhost/NewsRelease/upload/".$filename;
 		echo $url;
 }
+	 public function postNews(){
+		 $category=$this->input->category;
+		 $author=$this->input->author;
+		 $title=$this->input->title;
+		 $content=$this->input->content;
+		 $unit=$this->input->unit;
+         $time=$this->input->time;
+
+	 }
 }
