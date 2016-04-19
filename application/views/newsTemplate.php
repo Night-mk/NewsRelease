@@ -45,6 +45,7 @@
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
     <script>
         (function ($) {
+<<<<<<< HEAD:application/views/newsTemplate.php
 //            function GetRequest() {
 //                var url = location.search; //获取url中"?"符后的字串
 //                var theRequest = new Object();
@@ -57,6 +58,8 @@
 //                }
 //                return theRequest;
 //            }
+=======
+>>>>>>> 79f011c0ed3b29fc37b5c391d1ae73e882cd6c13:application/views/newsTemplate.php
             function transCategory(category){
                 var category1 = "";
                 switch(category){
@@ -82,34 +85,29 @@
                 }
                 return category1;
             }
-            var newsId = '<?php echo $newsId ?>';
 
-//            if(newsId==""){//查看效果
-//
-//            }else{
-//
-//            }
-            function set(){
-                var data = {
-                    "newsId": newsId
-                };
-                $.ajax({
-                    type: "post",
-                    url: "showContent",
-                    data: data,
-                    success: function (data) {
-                        var data1 = eval("("+data+")");
-                        data1 = data1[0];
-                        $("#category").find("a").text(transCategory(data1.category));
-                        $("#title").text(data1.title);
-                        $("#unit").text(data1.unit);
-                        $("#time").text(data1.time1);
-                        $("#author").find("i").text(data1.author);
-                        $("#content").append(data1.content);
-                    }
-                });
+            
+            function setPage(){
+            	var newsId = '<?php echo newsId?>';
+		        var data = {
+		            "newsId": newsId
+		        };
+	            $.ajax({
+	                type: "post",
+	                url: "showContent",
+	                data: data,
+	                success: function (data) {
+	                    var data1 = eval("("+data+")");
+	                    $("#category").find("a").text(transCategory(data1.category));
+	                    $("#title").text(data1.title);
+	                    $("#unit").text(data1.unit);
+	                    $("#time").text(data1.time1);
+	                    $("#author").find("i").text(data1.author);
+	                    $("#content").append(data1.content);
+	                }
+	            });
             }
-            set();
+            setPage();
 
         })(jQuery);
 

@@ -42,13 +42,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="filter-bg"></div>
         <div class="main-title" style="font-family: 微软雅黑; color: #6f6e6b;">专为新闻编辑设计</div>
         <div class="btn-R-position">
-        	<div id="logSign" >
+        	<div id="logSign"  style="display: none;">
         		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
 	            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#signIn">注册</button>
         	</div>
-            <div id="userShow" style="display: none;">
+            <div id="userShow">
             	<a class="user-name">设立的发明了萨克发的发的发的分散</a>
-            	<a style="float: right;display: inline-block;">注销</a>
+            	<a class="user-quit" style="float: right;display: inline-block;">注销</a>
             </div>
         </div>
         <div class="modal fade" id="logIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <button type="button" id="showView" class="btn btn-default">查看效果</button>
             <button type="button" id="release" class="btn btn-default btn-R-position">发布</button>
         </div>
-        <!--<a href="newsList.html">test</a>-->
+        <!--<button id="aaaaaa">test</button>-->
     </div>
 
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
@@ -170,6 +170,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         //页面简单逻辑
         (function($){
+        	$("#aaaaaa").click(function(){
+        	});
             //选择框的逻辑
             var selectBox = function(){};
             selectBox.prototype = {
@@ -213,7 +215,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							url:"index.php/newsEditer/login",
 							data:data,
 							success: function(data){
-								alert(data);
+                                //隐藏登录和注注册部分
+								$("#logSign").css({"display":"none"});
+								//显示登录名
+								var usershow = $("#userShow");
+								usershow.find(".user-name").text();
+								usershow.css({"display":"block"});
+
 							}
 						});
 						login.find(".btn-close").click();
@@ -221,12 +229,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 				//查看效果（访问template页面）跳转页面请求
 				btnShowEffect: function(){
-					
+					var data = this.getData();
+					$("#showView").bind("click", function(){
+						var newsUrl = 'http://localhost/NewsRelease/application/views/newsTemplate.php';
+						newsUrl += 	'?category='+data.category+
+									'&unit='+data.unit+
+									'&title='+data.title+
+									'&author='+data.author+
+									'&time1='+data.time1+
+									'&content='+data.content;
+						newsUrl = encodeURIComponent(newsUrl);
+						window.open(newsUrl);
+					});
 				},
 				//发布页面ajax提交，弹出框，refresh
 				releaseNews: function(){
                     var _this_ = this;
 					var release = $("#release");
+					var _this_ = this;
 					release.bind("click", function(){
 						var data =_this_.getData();
                         console.log(data);
@@ -237,12 +257,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							success: function(data){
 								if(data==1){
 									alert("提交成功");
-								}else if(data==0){
+
+								}else if(data==2){
+
 									alert("提交失败");
 								}
 							}
 						});
 					});
+
+				},
+				//user注销，清除cookie，访问后台
+				userQuit: function(){
+					$("#userShow").find(".user-quit").bind("click",function(){
+						//清除cookie
+						$.ajax({
+							type: "get",
+							url: "",
+							success :function(){
+								$("#userShow").css({"display":"none"});
+								//显示登录注册
+								$("#logSign").css({"display":"block"});
+							}
+						});
+					});
+
 				},
 				//获取数据
 				getData: function(){
@@ -279,8 +318,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			var btnclick = new btnClick();
 			btnclick.btnLogin();
-            btnclick.releaseNews();
 
+			btnclick.releaseNews();
+			btnclick.btnShowEffect();
+
+
+			//检测cookie并改变页面内容
+			//处理cookie事务
+//			var Cookie = function(){};
+//			Cookie.prototype = {
+//				//检测cookie
+//				checkCookie: function(){
+//					
+//				},
+//				//读取cookie
+//				getCookie: function(){
+//					
+//				},
+//				//删除cookie
+//				deleteCookie: function(){
+//					
+//				}
+//			} 
+			
         })(jQuery);
 
         //编辑器逻辑
