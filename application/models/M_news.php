@@ -30,7 +30,7 @@ class M_news extends CI_Model{
         $category=htmlspecialchars($_POST['category']);
         $author=htmlspecialchars($_POST['author']);
         $title=htmlspecialchars($_POST['title']);
-        $content=htmlspecialchars($_POST['content']);
+        $content=$_POST['content'];
         $unit=htmlspecialchars($_POST['unit']);
         $time1=htmlspecialchars($_POST['time1']);
         $arr=array();
@@ -47,5 +47,20 @@ class M_news extends CI_Model{
           return "0";
        }
     }
+    public function update(){
+        $newTitle=$_POST['newTitle'];
+        $newsId=$_POST['newsId'];
+        $sql="update test.news set title='$newTitle' WHERE newsId='$newsId'";
+        $res=$this->db->query($sql);
+        return $res;
+    }
+    public function delete(){
+        $newsId=$_POST['newsId'];
+        $sql="delete from test.news WHERE newsId='$newsId' ";
+        $res=$this->db->query($sql);
+       return   $res;
+
+    }
+
 
 }

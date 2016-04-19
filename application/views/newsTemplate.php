@@ -30,11 +30,11 @@
 
     <div class="myWrapper wrapper-minH">
         <div class="news-header">
-            <div id="category"><span class="title-font">分类标签：<a href="#">经济</a></span></div>
-            <div id="title" class="main-title" style="font-family: 微软雅黑;color: #000000;">正常的新闻</div>
+            <div id="category"><span class="title-font">分类标签：<a href="#"></a></span></div>
+            <div id="title" class="main-title" style="font-family: 微软雅黑;color: #000000;"></div>
             <p>
-                <span id="unit" class="title-font divide-line">凤凰新闻</span>
-                <span id="time" class="title-font">2016-04-17 21:00</span>
+                <span id="unit" class="title-font divide-line"></span>
+                <span id="time" class="title-font"></span>
                 <span id="author" class="title-font">编辑：<i></i></span>
             </p>
         </div>
@@ -45,21 +45,6 @@
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
     <script>
         (function ($) {
-<<<<<<< HEAD:application/views/newsTemplate.php
-//            function GetRequest() {
-//                var url = location.search; //获取url中"?"符后的字串
-//                var theRequest = new Object();
-//                if (url.indexOf("?") != -1) {
-//                    var str = url.substr(1);
-//                    strs = str.split("&");
-//                    for(var i = 0; i < strs.length; i ++) {
-//                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-//                    }
-//                }
-//                return theRequest;
-//            }
-=======
->>>>>>> 79f011c0ed3b29fc37b5c391d1ae73e882cd6c13:application/views/newsTemplate.php
             function transCategory(category){
                 var category1 = "";
                 switch(category){
@@ -88,8 +73,8 @@
 
             
             function setPage(){
-            	var newsId = '<?php echo newsId?>';
-		        var data = {
+            	var newsId = '<?php echo $_GET['newsId'];?>'
+                var data = {
 		            "newsId": newsId
 		        };
 	            $.ajax({
@@ -98,10 +83,11 @@
 	                data: data,
 	                success: function (data) {
 	                    var data1 = eval("("+data+")");
+                        data1 = data1[0];
 	                    $("#category").find("a").text(transCategory(data1.category));
 	                    $("#title").text(data1.title);
 	                    $("#unit").text(data1.unit);
-	                    $("#time").text(data1.time1);
+	                    $("#time").text(data1.time);
 	                    $("#author").find("i").text(data1.author);
 	                    $("#content").append(data1.content);
 	                }

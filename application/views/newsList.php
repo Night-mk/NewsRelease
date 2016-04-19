@@ -22,29 +22,6 @@
 
 		<div class="tab-content main-content">
 			<div role="tabpanel" class="tab-pane active" id="finance">
-				<ul class="media-list interval-line">
-					<li class="media">
-						<div class="media-left">
-							<a href="#">
-<!--								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">-->
-							</a>
-						</div>
-						<div class="media-body">
-							<a href="#"><h4 class="media-heading">Media heading</h4></a>
-						</div>
-					</li>
-					<li class="media">
-						<div class="media-left">
-							<a href="#">
-<!--								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">-->
-							</a>
-						</div>
-						<div class="media-body">
-							<a href="#"><h4 class="media-heading">Media heading</h4></a>
-
-						</div>
-					</li>
-				</ul>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="sports">
 			</div>
@@ -61,6 +38,29 @@
 			<div role="tabpanel" class="tab-pane" id="car">
 			</div>
 
+			<div class="modal fade" id="textTitle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">修改新闻标题</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group" style="min-height: 25px;">
+								<label class="col-sm-2 control-label">新闻标题</label>
+								<div class="col-sm-8">
+									<input type="text" name="title" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary" >提交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!--			<button id="aaaaaaaa">test</button>-->
 		</div>
 
 	</div>
@@ -69,15 +69,10 @@
 	<script>
 		(function($){
 			var load = function () {
-				//var Load = this;
 			};
 			load.prototype = {
 				loadList : function (listname) {
 					var Load = this;
-//					var listname1 = "finance";
-//					if(listname=="undefined"){
-//						listname1 = listname;
-//					}
 					data = {
 						"category" : listname
 					};
@@ -86,13 +81,13 @@
 						url: "showList",
 						data: data,
 						success: function (data) {
-
 						var data1 = eval("("+data+")");
 							var list = $("#"+listname);
 							list.children().remove();
 							if(data1!=""){
 								var str = Load.htmladd(data1);
 								list.append(str);
+								editNews();
 							}else{
 								var str = '<h4>暂时还没有该类型的新闻哟~~</h4>';
 								list.append(str);
@@ -107,11 +102,15 @@
 
 					for(var i=0; i< data.length; i++){
 						var hrefName = 'http://localhost/NewsRelease/index.php/newsEditer/showNewsContent?newsId='+data[i].newsId;
-						strHtml += `<li class="media">
+						strHtml += `<li class="media" id='`+data[i].newsId+`'>
+										<div class="media-body">
+											<a href="`+hrefName+`"><h4 style="display: inline-block;" class="media-heading">`+data[i].title+`</h4></a>
+											<div style="float:right;">
+												<button type="button" class="btn btn-default changeButton" data-toggle="modal" data-target="#textTitle">修改</button>
+												<button type="button" class="btn btn-default deleteNews">删除</button>
+											</div>
 										</div>
-											<div class="media-body">
-											<a href="`+hrefName+`"><h4 class="media-heading">`+data[i].title+`</h4></a>
-										</div>
+
 									</li>`;
 					}
 
@@ -121,7 +120,7 @@
 			};
 
 			var loadobj = new load();
-			loadobj.loadList();
+			loadobj.loadList("finance");
 
 			$("ul[role='tablist']").children().each(function(){
 				$(this).bind("click", function(){
@@ -129,6 +128,62 @@
 					console.log(listname);
 					loadobj.loadList(listname);
 				});
+			});
+
+			function editNews(){
+				//修改，删除按钮绑定事件
+				$("li.media").each(function(){
+					var NewsList = $(this);
+					var deleteBtn = $(this).find(".deleteNews");
+					var newsId = NewsList.attr("id");
+					var data = {
+						"newsId": newsId
+					};
+					deleteBtn.bind("click", function () {
+						$.ajax({
+							type:"post",
+							url:"deleteNews",
+							data: data,
+							success: function(data){
+								if(data==1){
+									alert("删除成功");
+								}else{
+									alert("删除失败");
+								}
+							}
+						})
+					});
+					var changeButton = $(this).find(".changeButton");
+					changeButton.bind("click", function(){
+						var newsid = $(this).parent().parent().parent().attr("id");
+						$("#textTitle").attr("data-target",newsid);
+					});
+				});
+				//提交修改title
+				$("#textTitle").find(".btn-primary").bind("click", function () {
+					var textTitle = $("#textTitle");
+					var newsId = textTitle.data('target');
+					var newTitle = textTitle.find("input").val();
+					var data = {
+						"newsId": newsId,
+						"newTitle": newTitle
+					};
+					$.ajax({
+						type:"post",
+						url:"changeTitle",
+						data: data,
+						success: function(data){
+							if(data==1){
+								alert("修改成功");
+							}else{
+								alert("修改失败");
+							}
+						}
+					});
+				});
+			}
+
+			$("#aaaaaaaa").click(function(){
 			});
 
 		})(jQuery);

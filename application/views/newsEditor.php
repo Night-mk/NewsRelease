@@ -42,12 +42,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="filter-bg"></div>
         <div class="main-title" style="font-family: 微软雅黑; color: #6f6e6b;">专为新闻编辑设计</div>
         <div class="btn-R-position">
-        	<div id="logSign"  style="display: none;">
+        	<div id="logSign" >
         		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#logIn">登录</button>
 	            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#signIn">注册</button>
         	</div>
-            <div id="userShow">
-            	<a class="user-name">设立的发明了萨克发的发的发的分散</a>
+            <div id="userShow" style="display:none;">
+            	<a class="user-name"></a>
             	<a class="user-quit" style="float: right;display: inline-block;">注销</a>
             </div>
         </div>
@@ -192,7 +192,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             
 			//按钮的点击选项封装成类
 			var btnClick = function(){
-
 			};
 			btnClick.prototype = {
 				//登录模态框确定按钮提交表单
@@ -212,14 +211,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						};
 						$.ajax({
 							type:"post",
-							url:"index.php/newsEditer/login",
+							url:"http://localhost/NewsRelease/index.php/newsEditer/login",
 							data:data,
 							success: function(data){
                                 //隐藏登录和注注册部分
 								$("#logSign").css({"display":"none"});
 								//显示登录名
 								var usershow = $("#userShow");
-								usershow.find(".user-name").text();
+								usershow.find(".user-name").text(data);
 								usershow.css({"display":"block"});
 
 							}
@@ -229,24 +228,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 				//查看效果（访问template页面）跳转页面请求
 				btnShowEffect: function(){
-					var data = this.getData();
+                    var _this_ = this;
 					$("#showView").bind("click", function(){
-						var newsUrl = 'http://localhost/NewsRelease/application/views/newsTemplate.php';
-						newsUrl += 	'?category='+data.category+
-									'&unit='+data.unit+
-									'&title='+data.title+
-									'&author='+data.author+
-									'&time1='+data.time1+
-									'&content='+data.content;
-						newsUrl = encodeURIComponent(newsUrl);
-						window.open(newsUrl);
+                        var data = _this_.getData();
+                        console.log(data.unit);
+                        if(data.unit==''||data.title==''||data.author==''||data.content==''){
+                            alert("请填写完整");
+                        }else{
+                            var newsUrl = 'index.php/newsEditer/preShow';
+                            newsUrl += 	'?category='+data.category+
+                                '&unit='+data.unit+
+                                '&title='+data.title+
+                                '&author='+data.author+
+                                '&time1='+data.time1+
+                                '&content='+data.content;
+                            //	newsUrl = encodeURIComponent(newsUrl);
+                            window.open(newsUrl);
+                        }
 					});
 				},
 				//发布页面ajax提交，弹出框，refresh
 				releaseNews: function(){
                     var _this_ = this;
 					var release = $("#release");
-					var _this_ = this;
 					release.bind("click", function(){
 						var data =_this_.getData();
                         console.log(data);
@@ -273,7 +277,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						//清除cookie
 						$.ajax({
 							type: "get",
-							url: "",
+							url: "http://localhost/NewsRelease/index.php/newsEditer/quit",
 							success :function(){
 								$("#userShow").css({"display":"none"});
 								//显示登录注册
@@ -307,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						"author": author,
 						"time1": time,
 						"content": content
-					}
+					};
 					
 					return data;
 				}
@@ -321,8 +325,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			btnclick.releaseNews();
 			btnclick.btnShowEffect();
+            btnclick.userQuit();
 
 
+            function checkCookie(){
+                $.ajax({
+                    type:"get",
+                    url:"http://localhost/NewsRelease/index.php/newsEditer/checkLogin",
+                    success: function(data){
+                        if(data!=""&&data!=-2){
+                            $("#userShow").css({"display":"block"});
+                            //显示登录注册
+                            $("#logSign").css({"display":"none"});
+                            $("#userShow").find(".user-name").text(data);
+                        }
+                    }
+                })
+            }
+            checkCookie();
 			//检测cookie并改变页面内容
 			//处理cookie事务
 //			var Cookie = function(){};

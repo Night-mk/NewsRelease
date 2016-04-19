@@ -16,8 +16,8 @@ class M_user extends CI_Model{
   }
     public function  insert(){
         $username=htmlspecialchars($this->input->post('regname'));
-        $pass=$this->input->post('pass');
-        $sql="insert into test.muco(username,password) VALUES ('$username',md5($pass))";
+        $pass=md5($this->input->post('pass'));
+        $sql="insert into test.muco(username,password) VALUES ('$username','$pass')";
         $result=$this->db->query($sql);
         return $result;
 

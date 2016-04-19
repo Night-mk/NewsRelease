@@ -6,7 +6,6 @@ class NewsEditer extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array("form","url","cookie"));
 		$this->load->database();
-
 		$this->load->library('session');
 		$this->load->model('M_user');
 		$this->load->model('M_news');
@@ -23,8 +22,18 @@ class NewsEditer extends CI_Controller {
 		$data['newsId']=$_GET['newsId'];
 		$this->load->view('newsTemplate',$data);
 	}
-
-
+    public function checkLogin(){
+      if(setcookie('TOKEN')){
+		  $token=get_cookie('TOKEN');
+		  $current= $this->session->userdata('username');
+		  echo $current;
+	  }else {
+		  echo "-2";
+	  }
+    }
+  public function  preShow(){
+	  $this->load->view('newsTemplate2');
+  }
 	public function login(){
 		$username=$_POST['username'];
 		$password=md5($_POST['password']);
@@ -33,14 +42,9 @@ class NewsEditer extends CI_Controller {
 		if($res==1){
 			$this->session->set_userdata('username',$username);
 			if($check==true){
-                set_cookie('TOKEN',$username.md5($password),604800);//一周有效期
-				$token=get_cookie('TOKEN');
-
+                set_cookie('TOKEN',md5($username),604800);//一周有效期
+				echo $_SESSION['username'];
 			}
-			$data['user']=$username;
-			$data['cookie']=$token;
-			//$this->load->view('newsEditor',$data);
-			echo "success!";
 
 		}else {
            echo "请检查账号密码";
@@ -64,9 +68,14 @@ class NewsEditer extends CI_Controller {
 			$result = $this->M_user->insert();
 			echo $result;
 			if ($result == 1) {
-				echo "注册成功！";
+				echo "注册成功!2秒后跳转<script>setTimeout(function(){window.location = 'http://localhost/NewsRelease/'},2000)</script>";
+				//sleep(5);
+
+
 			}else{
 				echo "请重新注册！";
+				//sleep(5);
+
 			}
 		}
 	}
@@ -99,8 +108,25 @@ class NewsEditer extends CI_Controller {
 		$baseUrl=$res[0]['content'];
 		$resourse=fopen($baseUrl,"r");
 		$content=fread($resourse,filesize($baseUrl));
-		$res['content']=$content;
+		$res[0]['content']=$content;
 		echo json_encode($res);
+	}
+	public function changeTitle(){
+		$res=$this->M_news->update();
+		if($res){
+			echo "1";
+		}else {
+			echo "2";
+		}
+	}
+	public function deleteNews(){
+      $res=$this->M_news->delete();
+		if($res){
+			echo "1";
+		}
+		else {
+			echo "2";
+		}
 	}
 
 
