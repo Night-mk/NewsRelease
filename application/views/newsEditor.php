@@ -97,18 +97,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">注册</h4>
                     </div>
-                    <form class="form-horizontal" method="post" action="index.php">
+                    <form class="form-horizontal" method="post" action="index.php/newsEditer/register">
 	                    <div class="modal-body">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" placeholder="username">
+                                    <input type="text" name="regname" class="form-control" placeholder="username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <input type="password" name="pass" class="form-control" placeholder="Password">
                                 </div>
                             </div>
 	                    </div>
@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             
 			//按钮的点击选项封装成类
 			var btnClick = function(){
-				var _this_ = this;
+
 			};
 			btnClick.prototype = {
 				//登录模态框确定按钮提交表单
@@ -210,10 +210,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						};
 						$.ajax({
 							type:"post",
-							url:"",
+							url:"index.php/newsEditer/login",
 							data:data,
 							success: function(data){
-								
+								alert(data);
 							}
 						});
 						login.find(".btn-close").click();
@@ -225,26 +225,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 				//发布页面ajax提交，弹出框，refresh
 				releaseNews: function(){
+                    var _this_ = this;
 					var release = $("#release");
 					release.bind("click", function(){
-						var data = _this_.getData();
+						var data =_this_.getData();
+                        console.log(data);
 						$.ajax({
 							type: "post",
-							url: "dealNews.php",
+							url: "http://localhost/NewsRelease/index.php/newsEditer/postNews",
 							data: data,
 							success: function(data){
 								if(data==1){
-									alert("提价成功");
-								}else if(data==2){
-									alert("提价失败");
+									alert("提交成功");
+								}else if(data==0){
+									alert("提交失败");
 								}
 							}
 						});
-					}
+					});
 				},
 				//获取数据
 				getData: function(){
-					var category = $("#selected-category").find("button").attr(name),
+					var category = $("#selected-category").find("button").attr("name"),
 						unit = $("#unit").val(),
 						title = $("#title").val(),
 						author = $("#author").val();
@@ -255,7 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();  
 					    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();  
 					    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();  
-					    return year + "-" + month + "-" + date+" "+hour+":"+minute;  
+					    return year + "-" + month + "-" + date+" "+hour+":"+minute;
 					}
 					var time = timeStamp();
 					var content = $("#editor-trigger").html();
@@ -277,6 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			var btnclick = new btnClick();
 			btnclick.btnLogin();
+            btnclick.releaseNews();
 
         })(jQuery);
 

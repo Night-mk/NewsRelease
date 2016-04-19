@@ -26,7 +26,7 @@
 					<li class="media">
 						<div class="media-left">
 							<a href="#">
-								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">
+<!--								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">-->
 							</a>
 						</div>
 						<div class="media-body">
@@ -36,7 +36,7 @@
 					<li class="media">
 						<div class="media-left">
 							<a href="#">
-								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">
+<!--								<img style="width:50px;height:50px;" class="media-object" src="..." alt="...">-->
 							</a>
 						</div>
 						<div class="media-body">
@@ -69,24 +69,26 @@
 	<script>
 		(function($){
 			var load = function () {
-				var Load = this;
+				//var Load = this;
 			};
 			load.prototype = {
 				loadList : function (listname) {
-					var listname1 = "finance";
-					if(listname!=="undefined"){
-						listname1 = listname;
-					}
+					var Load = this;
+//					var listname1 = "finance";
+//					if(listname=="undefined"){
+//						listname1 = listname;
+//					}
 					data = {
-						"category" : listname1
+						"category" : listname
 					};
 					$.ajax({
 						type: "post",
-						url: "showList.php",
+						url: "showList",
 						data: data,
 						success: function (data) {
-							var data1 = eval("("+data+")");
-							var list = $("#"+listname1);
+
+						var data1 = eval("("+data+")");
+							var list = $("#"+listname);
 							list.children().remove();
 							if(data1!=""){
 								var str = Load.htmladd(data1);
@@ -104,7 +106,7 @@
 					strHtml += '<ul class="media-list interval-line">';
 
 					for(var i=0; i< data.length; i++){
-						var hrefName = 'url+?newsId='+data[i].newsId;
+						var hrefName = 'http://localhost/NewsRelease/index.php/newsEditer/showNewsContent?newsId='+data[i].newsId;
 						strHtml += `<li class="media">
 										</div>
 											<div class="media-body">

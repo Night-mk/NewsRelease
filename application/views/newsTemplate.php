@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,18 +45,18 @@
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
     <script>
         (function ($) {
-            function GetRequest() {
-                var url = location.search; //获取url中"?"符后的字串
-                var theRequest = new Object();
-                if (url.indexOf("?") != -1) {
-                    var str = url.substr(1);
-                    strs = str.split("&");
-                    for(var i = 0; i < strs.length; i ++) {
-                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-                    }
-                }
-                return theRequest;
-            }
+//            function GetRequest() {
+//                var url = location.search; //获取url中"?"符后的字串
+//                var theRequest = new Object();
+//                if (url.indexOf("?") != -1) {
+//                    var str = url.substr(1);
+//                    strs = str.split("&");
+//                    for(var i = 0; i < strs.length; i ++) {
+//                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+//                    }
+//                }
+//                return theRequest;
+//            }
             function transCategory(category){
                 var category1 = "";
                 switch(category){
@@ -81,28 +82,35 @@
                 }
                 return category1;
             }
-            var newsId = GetRequest()[0];
-            var data = {
-                "newsId": newsId
-            };
-            if(newsId==""){//查看效果
+            var newsId = '<?php echo $newsId ?>';
 
-            }else{
+//            if(newsId==""){//查看效果
+//
+//            }else{
+//
+//            }
+            function set(){
+                var data = {
+                    "newsId": newsId
+                };
                 $.ajax({
                     type: "post",
-                    url: "",
+                    url: "showContent",
                     data: data,
                     success: function (data) {
                         var data1 = eval("("+data+")");
-                        $("#category").find("a").val(transCategory(data1.category));
-                        $("#title").val(data1.title);
-                        $("#unit").val(data1.unit);
-                        $("#time").val(data1.time1);
-                        $("#author").find("i").val(data1.author);
-                        $("#content").children().append(data1.content);
+                        data1 = data1[0];
+                        $("#category").find("a").text(transCategory(data1.category));
+                        $("#title").text(data1.title);
+                        $("#unit").text(data1.unit);
+                        $("#time").text(data1.time1);
+                        $("#author").find("i").text(data1.author);
+                        $("#content").append(data1.content);
                     }
                 });
             }
+            set();
+
         })(jQuery);
 
     </script>

@@ -7,13 +7,19 @@
  */
 class M_user extends CI_Model{
 
-  private  function select($username,$password){
+  public  function select($username,$password){
    $sql='select * from test.muco where username=? and password=?';
      $info=array($username,$password);
-      $this->db->query($sql,$info);
-      if($this->db->affected_row()){
-          return true;
-      }else
-          return false;
+     $res= $this->db->query($sql,$info);
+      $num=$res->num_rows();
+     return $num;
   }
+    public function  insert(){
+        $username=htmlspecialchars($this->input->post('regname'));
+        $pass=$this->input->post('pass');
+        $sql="insert into test.muco(username,password) VALUES ('$username',md5($pass))";
+        $result=$this->db->query($sql);
+        return $result;
+
+    }
 }
