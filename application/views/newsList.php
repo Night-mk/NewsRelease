@@ -60,7 +60,6 @@
 					</div>
 				</div>
 			</div>
-<!--			<button id="aaaaaaaa">test</button>-->
 		</div>
 
 	</div>
@@ -159,6 +158,8 @@
 						$("#textTitle").attr("data-target",newsid);
 					});
 				});
+			}
+			function editTitle(){
 				//提交修改title
 				$("#textTitle").find(".btn-primary").bind("click", function () {
 					var textTitle = $("#textTitle");
@@ -173,6 +174,7 @@
 						url:"changeTitle",
 						data: data,
 						success: function(data){
+							$("#textTitle").find(".btn-close").click();
 							if(data==1){
 								alert("修改成功");
 							}else{
@@ -180,12 +182,10 @@
 							}
 						}
 					});
+					location.reload();
 				});
 			}
-
-			$("#aaaaaaaa").click(function(){
-			});
-
+			editTitle();
 		})(jQuery);
 	</script>
 	</body>

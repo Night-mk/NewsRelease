@@ -23,7 +23,7 @@ class NewsEditer extends CI_Controller {
 		$this->load->view('newsTemplate',$data);
 	}
     public function checkLogin(){
-      if(setcookie('TOKEN')){
+      if(isset($_COOKIE['TOKEN'])&&empty($_COOKIE['TOKEN'])){
 		  $token=get_cookie('TOKEN');
 		  $current= $this->session->userdata('username');
 		  echo $current;
@@ -38,16 +38,16 @@ class NewsEditer extends CI_Controller {
 		$username=$_POST['username'];
 		$password=md5($_POST['password']);
         $check=$_POST['checked'];
-		$res=$this->M_user->select($username,$password);
+		//var_dump($check);
+	    $res=$this->M_user->select($username,$password);
 		if($res==1){
 			$this->session->set_userdata('username',$username);
-			if($check==true){
+			if($check==='true'){
                 set_cookie('TOKEN',md5($username),604800);//一周有效期
-				echo $_SESSION['username'];
 			}
-
+            echo $_SESSION['username'];
 		}else {
-           echo "请检查账号密码";
+           echo -1;
 		}
 	}
 	public function quit(){
@@ -66,16 +66,10 @@ class NewsEditer extends CI_Controller {
 		$this->form_validation->set_rules('pass','Password','required|min_length[6]');
 		if($this->form_validation->run()==true) {
 			$result = $this->M_user->insert();
-			echo $result;
 			if ($result == 1) {
 				echo "注册成功!2秒后跳转<script>setTimeout(function(){window.location = 'http://localhost/NewsRelease/'},2000)</script>";
-				//sleep(5);
-
-
 			}else{
-				echo "请重新注册！";
-				//sleep(5);
-
+				echo "请重新注册！<script>setTimeout(function(){window.location = 'http://localhost/NewsRelease/'},2000)</script>";
 			}
 		}
 	}
@@ -98,7 +92,6 @@ class NewsEditer extends CI_Controller {
 	 }
 
 	public function showList(){
-
 		$res=$this->M_news->select();
 	    echo json_encode($res);
 

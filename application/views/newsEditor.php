@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <button type="button" id="showView" class="btn btn-default">查看效果</button>
             <button type="button" id="release" class="btn btn-default btn-R-position">发布</button>
         </div>
-        <!--<button id="aaaaaa">test</button>-->
+        <a href="http://localhost/NewsRelease/index.php/newsEditer/showNewsList">新闻列表</a>
     </div>
 
     <script type="text/javascript" src="http://localhost/NewsRelease/dist/js/lib/jquery-1.10.2.min.js"></script>
@@ -214,13 +214,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							url:"http://localhost/NewsRelease/index.php/newsEditer/login",
 							data:data,
 							success: function(data){
-                                //隐藏登录和注注册部分
-								$("#logSign").css({"display":"none"});
-								//显示登录名
-								var usershow = $("#userShow");
-								usershow.find(".user-name").text(data);
-								usershow.css({"display":"block"});
-
+								if(data!=-1){
+									//隐藏登录和注注册部分
+									$("#logSign").css({"display":"none"});
+									//显示登录名
+									var usershow = $("#userShow");
+									usershow.find(".user-name").text(data);
+									usershow.css({"display":"block"});
+								}else{
+									alert("请检查账号密码");
+								}
+                                
 							}
 						});
 						login.find(".btn-close").click();
@@ -236,6 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             alert("请填写完整");
                         }else{
                             var newsUrl = 'index.php/newsEditer/preShow';
+                            data.category = _this_.transCategory(data.category);
                             newsUrl += 	'?category='+data.category+
                                 '&unit='+data.unit+
                                 '&title='+data.title+
@@ -293,6 +298,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						unit = $("#unit").val(),
 						title = $("#title").val(),
 						author = $("#author").val();
+					
 					function timeStamp(){
 						var datetime = new Date(); 
 					    var year = datetime.getFullYear();  
@@ -314,7 +320,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					};
 					
 					return data;
-				}
+				},
+				transCategory: function(category){
+	                var category1 = "";
+	                switch(category){
+	                    case "finance":
+	                        category1 = "经济";
+	                        break;
+	                    case "sports":
+	                        category1 = "体育";
+	                        break;
+	                    case "entertainment":
+	                        category1 = "娱乐";
+	                        break;
+	                    case "building":
+	                        category1 = "房产";
+	                        break;
+	                    case "technical":
+	                        category1 = "科技";
+	                        break;
+	                    case "car":
+	                        category1 = "汽车";
+	                        break;
+	
+	                }
+	                return category1;
+	            }
 			};
 			
 			var selectbox = new selectBox();
